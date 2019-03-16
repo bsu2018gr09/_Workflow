@@ -209,31 +209,34 @@
 •	В тексте найти и вывести все слова максимальной длины, и удалить за ними следующее слово.В тексте поменять местами слова минимальной и максимальной длины (если таких слов несколько, то брать первое).  
 
 ```
-// Прочитать файл "date1.txt".     
-// К концу каждой строки добавить "     "  и записать в новый файл "date2.txt".     
-     #include <iostream>     
-     #include <fstream> 		                 // подключение библиотеки файлового ввода/вывода через потоки     
-using namespace std;     
-int main(){     
-const int N=1000;     
- char *buff = new char[50];     
- ifstream fffff("d:\\date1.txt"); // отсюда читаем (поток типа ifstream= input file stream)     
- ofstream ggggg("d:\\date2.txt");//сюда пишем (поток типа ofstream= output file stream)     
- if (!fffff){cout<<"No file d:\\date1.txt. Can't open\n"; exit(1);}     
- if (!ggggg){cout<<"   file d:\\date2.txt. Can't create\n"; exit(1);}     
-     
-int count=0;     
-while(fffff){ //читаем пока не кончится исходный файл. Т.е. пока не прочитаем EOF.     
-    fffff.getline(buff, N-1); //читаем ПОСТРОЧНО. При достижении конца файла потоковый объект fffff примет значение false, которое остановит выполнение цикла while     
-     if(fffff)     
-     {     
-         cout<<buff<<'\n'; //на экран     
-         ggggg<<buff<<"     \n";}//в файл     
-         count++;     
- }     
-cout<<"\n\nIn file "<<count<<" lines";     
-fffff.close();//закрыли файл     
-ggggg.close();//закрыли файл     
- system("pause");     
-}     
+// Прочитать файл "date1.txt".
+// К концу каждой строки добавить "***"  и записать в новый файл "date2.txt".
+#include<iostream>
+#include<fstream> 		                 // подключение библиотеки файлового ввода/вывода через потоки
+using namespace std;
+int main(){
+const int N=300;
+ char *buff = new char[N];
+ ifstream fffff("d:\\date1.txt"); // отсюда читаем (поток типа ifstream= input file stream)
+ ofstream ggggg("d:\\date2.txt");//сюда пишем (поток типа ofstream= output file stream)
+ if (!fffff){cout<<"No file d:\\date1.txt. Can't open\n"; exit(1);}
+ if (!ggggg){cout<<"   file d:\\date2.txt. Can't create\n"; exit(1);}
+
+int count=0;
+while(1){
+    fffff.getline(buff, N-1,'\n'); //читаем ПОСТРОЧНО. При достижении конца файла потоковый объект fffff примет значение false, которое остановит выполнение цикла while
+    cout<<buff<<'\n'; //на экран
+    ggggg<<buff<<"***";//в файл
+    count++;
+
+    if(fffff.eof()) break; //читаем пока не кончится исходный файл. Т.е. пока не прочитаем EOF.
+    ggggg<<'\n';//переход на новую строку пишем в date2.txt только, если в строке 16 мы прочитали действительно СТРОКУ (до endl), а не последнюю строку афйла в которой EOF, а не endl
+ }
+cout<<"-----In file "<<count<<" lines";
+delete [] buff;
+fffff.close();//закрыли файл
+ggggg.close();//закрыли файл
+system("pause");
+}
+
 ```    
