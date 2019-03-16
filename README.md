@@ -215,7 +215,7 @@
 #include<fstream> 		                 // подключение библиотеки файлового ввода/вывода через потоки
 using namespace std;
 int main(){
-const int N=300;
+const int N=200;
  char *buff = new char[N];
  ifstream fffff("d:\\date1.txt"); // отсюда читаем (поток типа ifstream= input file stream)
  ofstream ggggg("d:\\date2.txt");//сюда пишем (поток типа ofstream= output file stream)
@@ -224,7 +224,9 @@ const int N=300;
 
 int count=0;
 while(1){
-    fffff.getline(buff, N-1,'\n'); //читаем ПОСТРОЧНО. При достижении конца файла потоковый объект fffff примет значение false, которое остановит выполнение цикла while
+    fffff.getline(buff, N-1); //читаем ПОСТРОЧНО.
+//Если будет в строке файла больше N-1 символов, то getline() поместит в буфер N-1 символов, в конец поместит '\0', установит флаг ошибки (failbit), поток станет нерабочим, не введённое останется в очереди ввода.
+    if (fffff.fail()) fffff.clear(); //getline при переполнении выставляет бит состояния =1. Его проверяем fail'ом. А потом подчищаем буфер
     cout<<buff<<'\n'; //на экран
     ggggg<<buff<<"***";//в файл
     count++;
@@ -238,5 +240,4 @@ fffff.close();//закрыли файл
 ggggg.close();//закрыли файл
 system("pause");
 }
-
 ```    
